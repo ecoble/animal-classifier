@@ -214,25 +214,9 @@ print(output_logs_dir)
 model_name = 'trained_model'
 
 # define data generators
-train_data_generator = ImageDataGenerator(
-        rotation_range=40,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        rescale=1./255,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest')
+train_data_generator = ImageDataGenerator(rescale=1./255, fill_mode='nearest')
 
-validation_data_generator = ImageDataGenerator(
-        rotation_range=40,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        rescale=1./255,
-        shear_range=0.2,
-        zoom_range=0.2,
-        horizontal_flip=True,
-        fill_mode='nearest')
+validation_data_generator = ImageDataGenerator(rescale=1./255, fill_mode='nearest')
 
 # tell the data generators to use data from the train and validation directories
 train_generator = train_data_generator.flow_from_directory(train_dir,
@@ -280,7 +264,7 @@ model = Sequential([
     Dense(n_classes, activation='softmax')
 ])
 
-model.compile(optimizer=optimizers.Adam(lr=learning_rate, momentum=0.9),
+model.compile(optimizer=optimizers.Adam(lr=learning_rate),
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 

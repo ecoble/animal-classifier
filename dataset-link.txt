@@ -1,0 +1,2 @@
+https://medium.com/tensorpad/building-an-animal-classifier-with-tensorflow-ad5931b04946
+https://github.com/PeterChauYEG/animal_classifier
