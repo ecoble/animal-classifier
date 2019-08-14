@@ -286,27 +286,12 @@ model.compile(optimizer=optimizers.Adam(lr=learning_rate, momentum=0.9),
 
 model.summary()
 
-# label of the class we are making predictions on
-# single_class = class_keys[0]
-#
-# # first class image paths
-# single_class_image_paths = image_paths[0]
-#
-# # make predictions on the first class
-# single_class_predictions = predict(int(n_validation / n_classes), single_class_image_paths, model)
-#
-# # get the accuracy of predictions on the first class
-# single_class_accuracy = predictions_accuracy(class_keys, single_class, single_class_predictions)
 
 for i in range(10):
     single_class_predictions = predict(int(n_train / n_classes), image_paths[i], model)
     single_class_accuracy = predictions_accuracy(class_keys, class_keys[i], single_class_predictions)
     print("Current accuracy of model for class " + class_keys[i] + ": " + str(single_class_accuracy))
 
-# print("Current accuracy of model for class " + single_class + ": " + str(single_class_accuracy))
-
-# # log information for use with tensorboard
-# tensorboard = TensorBoard(log_dir=output_logs_dir)
 
 model.fit_generator(train_generator,
                     steps_per_epoch=math.floor(n_train/batch_size),
@@ -319,14 +304,6 @@ for i in range(10):
     single_class_accuracy = predictions_accuracy(class_keys, class_keys[i], single_class_predictions)
     print("Current accuracy of model for class " + class_keys[i] + ": " + str(single_class_accuracy))
 
-# # make predictions on the first class
-# single_class_predictions = predict(int(n_train / n_classes), single_class_image_paths, model)
-#
-# # get the accuracy of predictions on the first class
-# single_class_accuracy = predictions_accuracy(class_keys, single_class, single_class_predictions)
-#
-# print("Current accuracy of model for class " + single_class + ": " + str(single_class_accuracy))
-
 # get 1 image path per class
 predict_image_paths = [image_path[0] for image_path in image_paths]
 
@@ -336,13 +313,7 @@ predictions = predict(10, predict_image_paths, model)
 # plot the image that was predicted
 plot_prediction(class_keys, predict_image_paths, predictions)
 
-model.save('trained_model.h5')
-json_string = model.to_json()
+model.save('trained_model_3.h5')
 
-# model_json = model.to_json()
-# with open("model.json", "w") as json_file:
-#     json_file.write(model_json)
-# # serialize weights to HDF5
-# model.save_weights("model.h5")
-# print("Saved model to disk")
+
 
