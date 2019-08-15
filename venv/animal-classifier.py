@@ -181,8 +181,8 @@ def plot_prediction(class_keys, image_paths, predictions):
         ax.set_yticks([])
         ax.set_title(subplot_label)
 
-train_dir = "dataset/train"
-validate_dir = "dataset/validate"
+train_dir = "venv/dataset/train"
+validate_dir = "venv/dataset/validate"
 # number of images in the training dataset
 n_train = 8000
 
@@ -199,10 +199,10 @@ input_shape = (image_dim, image_dim, 3)
 learning_rate = 0.001
 
 # size of each mini-batch
-batch_size = 50
+batch_size = 32
 
 # nunmber of training episodes
-epochs = 5
+epochs = 50
 
 # directory which we will save training outputs to
 # add a timestamp so that tensorboard show each training session as a different run
@@ -265,31 +265,51 @@ model = Sequential([
     # Dense(n_classes, activation='softmax')
 ])
 
-model = Sequential()
-model.add(Conv2D(32, kernel_size = (3, 3), activation='relu', input_shape=input_shape))
-model.add(MaxPooling2D(pool_size=(2,2)))
-model.add(BatchNormalization())
-model.add(Conv2D(64, kernel_size=(3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
-model.add(BatchNormalization())
-model.add(Conv2D(96, kernel_size=(3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
-model.add(BatchNormalization())
-model.add(Conv2D(96, kernel_size=(3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
-model.add(BatchNormalization())
-model.add(Conv2D(64, kernel_size=(3,3), activation='relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
-model.add(BatchNormalization())
-model.add(Dropout(0.2))
-model.add(Flatten())
-model.add(Dense(256, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(128, activation='relu'))
-#model.add(Dropout(0.3))
-model.add(Dense(10, activation = 'softmax'))
+# model.add(Conv2D(32, kernel_size = (3, 3), activation='relu', input_shape=input_shape))
+# model.add(MaxPooling2D(pool_size=(2,2)))
+# model.add(BatchNormalization())
+# model.add(Conv2D(64, kernel_size=(3,3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2,2)))
+# model.add(BatchNormalization())
+# model.add(Conv2D(96, kernel_size=(3,3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2,2)))
+# model.add(BatchNormalization())
+# model.add(Conv2D(96, kernel_size=(3,3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2,2)))
+# model.add(BatchNormalization())
+# model.add(Conv2D(64, kernel_size=(3,3), activation='relu'))
+# model.add(MaxPooling2D(pool_size=(2,2)))
+# model.add(BatchNormalization())
+# model.add(Dropout(0.2))
+# model.add(Flatten())
+# model.add(Dense(256, activation='relu'))
+# model.add(Dropout(0.2))
+# model.add(Dense(128, activation='relu'))
+# #model.add(Dropout(0.3))
+# model.add(Dense(10, activation = 'softmax'))
 
-model.compile(optimizer=optimizers.Adam(lr=learning_rate),
+model = Sequential()
+model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=input_shape))
+model.add(Conv2D(32, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Conv2D(64, (3, 3), padding='same', activation='relu'))
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Flatten())
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(n_classes, activation='softmax'))
+
+model.compile(optimizer=optimizers.rmsprop(lr=learning_rate),
               loss='categorical_crossentropy',
               metrics=['accuracy'])
 
