@@ -18,9 +18,10 @@ import matplotlib.pyplot as plt
 # Machine learning framework that provides an abstract API on top of Tensorflow
 import keras
 from keras.callbacks import TensorBoard
-from keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
+from keras.layers import Conv2D, Dense, Flatten, MaxPooling2D, Dropout
 from keras.models import Sequential
 from keras import optimizers
+from keras.layers.normalization import BatchNormalization
 
 import tensorflow as tf
 
@@ -180,8 +181,8 @@ def plot_prediction(class_keys, image_paths, predictions):
         ax.set_yticks([])
         ax.set_title(subplot_label)
 
-train_dir = "venv/dataset/train"
-validate_dir = "venv/dataset/validate"
+train_dir = "dataset/train"
+validate_dir = "dataset/validate"
 # number of images in the training dataset
 n_train = 8000
 
@@ -198,10 +199,10 @@ input_shape = (image_dim, image_dim, 3)
 learning_rate = 0.001
 
 # size of each mini-batch
-batch_size = 32
+batch_size = 50
 
 # nunmber of training episodes
-epochs = 10
+epochs = 5
 
 # directory which we will save training outputs to
 # add a timestamp so that tensorboard show each training session as a different run
@@ -247,22 +248,46 @@ image_paths = get_class_images(classes, validate_dir)
 # define the model
 # takes in images, convoles them, flattens them, classifies them
 model = Sequential([
-    Conv2D(16, (3, 3), activation='relu', padding='same', input_shape=input_shape),
-    Conv2D(16, (3, 3), activation='relu', padding='same'),
-    MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
-    Conv2D(32, (3, 3), activation='relu', padding='same'),
-    Conv2D(32, (3, 3), activation='relu', padding='same'),
-    MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
-    Conv2D(64, (3, 3), activation='relu', padding='same'),
-    Conv2D(64, (3, 3), activation='relu', padding='same'),
-    MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
-    Conv2D(128, (3, 3), activation='relu', padding='same'),
-    Conv2D(128, (3, 3), activation='relu', padding='same'),
-    MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
-    Flatten(),
-    Dense(256, activation='relu'),
-    Dense(n_classes, activation='softmax')
+    # Conv2D(16, (3, 3), activation='relu', padding='same', input_shape=input_shape),
+    # Conv2D(16, (3, 3), activation='relu', padding='same'),
+    # MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
+    # Conv2D(32, (3, 3), activation='relu', padding='same'),
+    # Conv2D(32, (3, 3), activation='relu', padding='same'),
+    # MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
+    # Conv2D(64, (3, 3), activation='relu', padding='same'),
+    # Conv2D(64, (3, 3), activation='relu', padding='same'),
+    # MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
+    # Conv2D(128, (3, 3), activation='relu', padding='same'),
+    # Conv2D(128, (3, 3), activation='relu', padding='same'),
+    # MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
+    # Flatten(),
+    # Dense(256, activation='relu'),
+    # Dense(n_classes, activation='softmax')
 ])
+
+model = Sequential()
+model.add(Conv2D(32, kernel_size = (3, 3), activation='relu', input_shape=input_shape))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(BatchNormalization())
+model.add(Conv2D(64, kernel_size=(3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(BatchNormalization())
+model.add(Conv2D(96, kernel_size=(3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(BatchNormalization())
+model.add(Conv2D(96, kernel_size=(3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(BatchNormalization())
+model.add(Conv2D(64, kernel_size=(3,3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(BatchNormalization())
+model.add(Dropout(0.2))
+model.add(Flatten())
+model.add(Dense(256, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(128, activation='relu'))
+#model.add(Dropout(0.3))
+model.add(Dense(10, activation = 'softmax'))
 
 model.compile(optimizer=optimizers.Adam(lr=learning_rate),
               loss='categorical_crossentropy',
