@@ -199,10 +199,10 @@ input_shape = (image_dim, image_dim, 3)
 learning_rate = 0.001
 
 # size of each mini-batch
-batch_size = 32
+batch_size = 256
 
 # nunmber of training episodes
-epochs = 50
+epochs = 100
 
 # directory which we will save training outputs to
 # add a timestamp so that tensorboard show each training session as a different run
@@ -342,7 +342,7 @@ predictions = predict(10, predict_image_paths, model)
 # plot the image that was predicted
 plot_prediction(class_keys, predict_image_paths, predictions)
 
-model.save('trained_model_3.h5')
+model.save('trained_model_6.h5')
 
 
 
