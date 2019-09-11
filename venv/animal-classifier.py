@@ -247,24 +247,26 @@ image_paths = get_class_images(classes, validate_dir)
 
 # define the model
 # takes in images, convoles them, flattens them, classifies them
-model = Sequential([
-    # Conv2D(16, (3, 3), activation='relu', padding='same', input_shape=input_shape),
-    # Conv2D(16, (3, 3), activation='relu', padding='same'),
-    # MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
-    # Conv2D(32, (3, 3), activation='relu', padding='same'),
-    # Conv2D(32, (3, 3), activation='relu', padding='same'),
-    # MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
-    # Conv2D(64, (3, 3), activation='relu', padding='same'),
-    # Conv2D(64, (3, 3), activation='relu', padding='same'),
-    # MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
-    # Conv2D(128, (3, 3), activation='relu', padding='same'),
-    # Conv2D(128, (3, 3), activation='relu', padding='same'),
-    # MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
-    # Flatten(),
-    # Dense(256, activation='relu'),
-    # Dense(n_classes, activation='softmax')
-])
 
+# Model 1
+# model = Sequential([])
+# Conv2D(16, (3, 3), activation='relu', padding='same', input_shape=input_shape),
+# Conv2D(16, (3, 3), activation='relu', padding='same'),
+# MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
+# Conv2D(32, (3, 3), activation='relu', padding='same'),
+# Conv2D(32, (3, 3), activation='relu', padding='same'),
+# MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
+# Conv2D(64, (3, 3), activation='relu', padding='same'),
+# Conv2D(64, (3, 3), activation='relu', padding='same'),
+# MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
+# Conv2D(128, (3, 3), activation='relu', padding='same'),
+# Conv2D(128, (3, 3), activation='relu', padding='same'),
+# MaxPooling2D(pool_size=(2,2), strides=None, padding='valid'),
+# Flatten(),
+# Dense(256, activation='relu'),
+# Dense(n_classes, activation='softmax')
+
+# Model 2
 # model.add(Conv2D(32, kernel_size = (3, 3), activation='relu', input_shape=input_shape))
 # model.add(MaxPooling2D(pool_size=(2,2)))
 # model.add(BatchNormalization())
@@ -288,6 +290,7 @@ model = Sequential([
 # #model.add(Dropout(0.3))
 # model.add(Dense(10, activation = 'softmax'))
 
+#Model 3
 model = Sequential()
 model.add(Conv2D(32, (3, 3), padding='same', activation='relu', input_shape=input_shape))
 model.add(Conv2D(32, (3, 3), activation='relu'))
